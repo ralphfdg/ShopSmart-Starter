@@ -8,6 +8,7 @@ export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('All');
+  const [sort, setSort] = useState('default');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const { addToCart, cartMessage } = useCart();
@@ -36,6 +37,13 @@ export default function ProductsPage() {
     return matchesSearch && matchesCategory;
   });
 
+  const displayedProducts = [...visibleProducts].sort((a, b) => {
+    if (sort === 'price-asc') return Number(a.price) - Number(b.price);
+    if (sort === 'price-desc') return Number(b.price) - Number(a.price);
+    if (sort === 'name-asc') return a.name.localeCompare(b.name);
+    return 0;
+  });
+
   return (
     <section>
       <div className="hero">
@@ -57,6 +65,15 @@ export default function ProductsPage() {
             {categories.map((item) => <option key={item}>{item}</option>)}
           </select>
         </label>
+        <label>
+          <span>Sort</span>
+          <select value={sort} onChange={(event) => setSort(event.target.value)}>
+            <option value="default">Default</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+            <option value="name-asc">Name: A to Z</option>
+          </select>
+        </label>
       </div>
 
       <StatusMessage>{cartMessage}</StatusMessage>
@@ -65,7 +82,7 @@ export default function ProductsPage() {
       {!loading && !error && visibleProducts.length === 0 && <StatusMessage>No products match your filters.</StatusMessage>}
 
       <div className="product-grid">
-        {visibleProducts.map((product) => (
+        {displayedProducts.map((product) => (
           <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
         ))}
       </div>

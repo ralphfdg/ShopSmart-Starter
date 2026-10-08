@@ -17,10 +17,18 @@ export default function CartPage() {
             {cart.map((item) => (
               <article className="cart-item" key={item.productId}>
                 <div><h2>{item.name}</h2><p>₱{item.price.toLocaleString('en-PH')} each</p></div>
-                <label>Quantity
-                  <input type="number" min="1" max={item.stock} value={item.quantity}
-                    onChange={(event) => setQuantity(item.productId, Number(event.target.value))} />
-                </label>
+                <div className="quantity-control">
+                  <button type="button" aria-label={`Decrease quantity of ${item.name}`}
+                    disabled={item.quantity <= 1}
+                    onClick={() => setQuantity(item.productId, item.quantity - 1)}>−</button>
+                  <label>Quantity
+                    <input type="number" min="1" max={item.stock} value={item.quantity}
+                      onChange={(event) => setQuantity(item.productId, Number(event.target.value))} />
+                  </label>
+                  <button type="button" aria-label={`Increase quantity of ${item.name}`}
+                    disabled={item.quantity >= item.stock}
+                    onClick={() => setQuantity(item.productId, item.quantity + 1)}>+</button>
+                </div>
                 <strong>₱{(item.price * item.quantity).toLocaleString('en-PH')}</strong>
                 <button className="danger" onClick={() => removeFromCart(item.productId)}>Remove</button>
               </article>

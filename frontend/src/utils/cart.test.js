@@ -20,6 +20,13 @@ describe('cart utilities', () => {
     expect(updateCartQuantity(cart, 1, 2).error).toContain('Only 1');
   });
 
+  it('refuses a quantity below one and leaves the cart unchanged', () => {
+    const cart = [{ productId: 1, name: 'Mouse', price: 500, stock: 3, quantity: 1 }];
+    const result = updateCartQuantity(cart, 1, 0);
+    expect(result.error).toContain('greater than zero');
+    expect(result.cart).toBe(cart);
+  });
+
   it('counts all cart units and handles an empty cart', () => {
     expect(calculateCartItemCount([{ quantity: 2 }, { quantity: 3 }])).toBe(5);
     expect(calculateCartItemCount([])).toBe(0);

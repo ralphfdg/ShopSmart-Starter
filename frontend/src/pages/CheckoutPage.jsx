@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import StatusMessage from '../components/StatusMessage.jsx';
 import { useCart } from '../context/CartContext.jsx';
 import { api } from '../services/api.js';
+import { calculateItemSubtotal } from '../utils/cart.js';
 
 export default function CheckoutPage() {
   const { cart, total, clearCart } = useCart();
@@ -55,7 +56,19 @@ export default function CheckoutPage() {
         <label>Delivery address<textarea name="address" value={form.address} onChange={updateField} minLength="10" maxLength="300" required /></label>
         <button disabled={submitting}>{submitting ? 'Submitting order…' : 'Place simulated order'}</button>
       </form>
-      <aside className="summary"><h2>Amount due</h2><p className="summary-total"><span>Total</span><strong>₱{total.toLocaleString('en-PH')}</strong></p><small>No actual payment will be collected.</small></aside>
+      <aside className="summary">
+        <h2>Amount due</h2>
+        <div className="checkout-items">
+          {cart.map((item) => (
+            <p key={item.productId}>
+              <span>{item.name} × {item.quantity}</span>
+              <strong>₱{calculateItemSubtotal(item).toLocaleString('en-PH', { minimumFractionDigits: 2 })}</strong>
+            </p>
+          ))}
+        </div>
+        <p className="summary-total"><span>Total</span><strong>₱{total.toLocaleString('en-PH')}</strong></p>
+        <small>No actual payment will be collected.</small>
+      </aside>
     </section>
   );
 }
