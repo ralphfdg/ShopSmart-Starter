@@ -3,7 +3,7 @@ import StatusMessage from '../components/StatusMessage.jsx';
 import { useCart } from '../context/CartContext.jsx';
 
 export default function CartPage() {
-  const { cart, total, cartMessage, setQuantity, removeFromCart } = useCart();
+  const { cart, total, itemCount, cartMessage, setQuantity, removeFromCart } = useCart();
 
   return (
     <section>
@@ -28,7 +28,7 @@ export default function CartPage() {
           </div>
           <aside className="summary">
             <h2>Order summary</h2>
-            <p><span>Items</span><strong>{cart.reduce((sum, item) => sum + item.quantity, 0)}</strong></p>
+            <p><span>Items</span><strong>{itemCount}</strong></p>
             <p className="summary-total"><span>Total</span><strong>₱{total.toLocaleString('en-PH')}</strong></p>
             <Link className="button full" to="/checkout">Proceed to checkout</Link>
           </aside>

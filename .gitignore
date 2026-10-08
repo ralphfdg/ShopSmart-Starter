@@ -8,3 +8,5 @@ coverage/
 .vscode/
 backend/prisma/*.db
 backend/prisma/*.db-journal
+.playwright-mcp/
+docs/
