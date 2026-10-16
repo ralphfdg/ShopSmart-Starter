@@ -6,6 +6,7 @@ import { api } from '../services/api.js';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
+  const [catalog, setCatalog] = useState([]);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('All');
   const [sort, setSort] = useState('default');
@@ -16,26 +17,30 @@ export default function ProductsPage() {
   useEffect(() => {
     let active = true;
     api.getProducts()
+      .then((data) => active && setCatalog(data.products))
+      .catch(() => {});
+    return () => { active = false; };
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+    setLoading(true);
+    setError('');
+    api.getProducts(search.trim())
       .then((data) => active && setProducts(data.products))
       .catch((caught) => active && setError(caught.message))
       .finally(() => active && setLoading(false));
     return () => { active = false; };
-  }, []);
+  }, [search]);
 
   const categories = useMemo(
-    () => ['All', ...new Set(products.map((product) => product.category))],
-    [products]
+    () => ['All', ...new Set(catalog.map((product) => product.category))],
+    [catalog]
   );
 
-  const query = search.trim().toLowerCase();
-
-  const visibleProducts = products.filter((product) => {
-    const matchesSearch =
-      product.name.toLowerCase().includes(query) ||
-      product.description.toLowerCase().includes(query);
-    const matchesCategory = category === 'All' || product.category === category;
-    return matchesSearch && matchesCategory;
-  });
+  const visibleProducts = products.filter(
+    (product) => category === 'All' || product.category === category
+  );
 
   const displayedProducts = [...visibleProducts].sort((a, b) => {
     if (sort === 'price-asc') return Number(a.price) - Number(b.price);
