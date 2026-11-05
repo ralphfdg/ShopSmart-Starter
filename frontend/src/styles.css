@@ -53,7 +53,20 @@ form { display: grid; gap: 1rem; }
 .checkout-layout form, .assistant-layout form { border: 0; padding: 0; }
 .empty-state, .success-card { text-align: center; padding: 4rem 1rem; }
 .recommendations { display: grid; gap: .6rem; }
-.recommendations a { background: #e6fffb; border-radius: .6rem; padding: .8rem; color: #115e59; font-weight: 700; text-decoration: none; }
+.recommendation { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .8rem; background: #e6fffb; border-radius: .6rem; padding: .8rem; }
+.recommendation p { margin: 0; }
+.recommendation-name { color: #115e59; font-weight: 700; }
+.recommendation-facts { margin-top: .2rem !important; font-size: .9rem; }
+.check-product { gap: .4rem; white-space: nowrap; transition: background-color .15s ease; }
+.check-product:focus-visible { outline: 3px solid #99f6e4; outline-offset: 2px; }
+.check-product-arrow { transition: transform .15s ease; }
+.check-product:hover .check-product-arrow { transform: translateX(3px); }
+@media (prefers-reduced-motion: reduce) { .check-product, .check-product-arrow { transition: none; } }
+.assistant-note { color: #52606d; font-size: .9rem; margin: 0; }
+.assistant-answer .assistant-note { margin-bottom: .8rem; }
+.assistant-sources { border-top: 1px solid #dce3eb; margin-top: 1rem; padding-top: .6rem; color: #52606d; font-size: .9rem; }
+.assistant-sources h3 { font-size: .9rem; margin: 0 0 .3rem; }
+.assistant-sources ul { margin: 0; padding-left: 1.1rem; }
 @media (max-width: 820px) {
   .product-grid { grid-template-columns: repeat(2, 1fr); }
   .cart-layout, .details-layout, .checkout-layout, .assistant-layout { grid-template-columns: 1fr; }
