@@ -11,7 +11,11 @@ export function createApp() {
   const app = express();
   app.disable('x-powered-by');
   app.use(helmet());
-  app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173' }));
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+  // In development, accept any local port (Vite may pick 5174+, or the app may be opened via 127.0.0.1).
+  const localOrigin = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/;
+  const allowedOrigin = process.env.NODE_ENV === 'production' ? frontendUrl : [frontendUrl, localOrigin];
+  app.use(cors({ origin: allowedOrigin }));
   app.use(express.json({ limit: '100kb' }));
   app.use((request, response, next) => { request.id = crypto.randomUUID(); response.setHeader('X-Request-ID', request.id); next(); });
   app.use(morgan(':method :url :status :response-time ms'));
