@@ -2,21 +2,21 @@
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 320px; }
 a { color: inherit; }
-button, .button { border: 0; border-radius: .7rem; background: #0f766e; color: white; padding: .75rem 1rem; font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; justify-content: center; align-items: center; }
-button:hover, .button:hover { background: #115e59; }
+button, .button { border: 0; border-radius: .7rem; background: #6d28d9; color: white; padding: .75rem 1rem; font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; justify-content: center; align-items: center; }
+button:hover, .button:hover { background: #5b21b6; }
 button:disabled { cursor: not-allowed; opacity: .55; }
 .button.secondary { background: #e6fffb; color: #115e59; }
 .button.full { width: 100%; }
 .danger { background: #b42318; }
 .app-shell { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; }
-.site-header { background: #071522; color: white; padding: 1rem max(1.25rem, calc((100vw - 1180px)/2)); display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
-.brand { color: #42d6c5; font-size: 1.35rem; font-weight: 900; text-decoration: none; }
+.site-header { background: #1e1b4b; color: white; padding: 1rem max(1.25rem, calc((100vw - 1180px)/2)); display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.brand { color: #a78bfa;  font-size: 1.35rem; font-weight: 900; text-decoration: none; }
 nav { display: flex; gap: 1.2rem; align-items: center; }
 nav a { color: #d6e3ee; text-decoration: none; }
 nav a.active { color: #42d6c5; }
 main { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; padding: 2.5rem 0 4rem; }
 .site-footer { background: #071522; color: #9db0c1; text-align: center; padding: 1.4rem; }
-.hero { background: linear-gradient(135deg, #0b2b3a, #115e59); color: white; border-radius: 1.4rem; padding: clamp(2rem, 5vw, 4rem); margin-bottom: 1.5rem; }
+.hero { background: linear-gradient(135deg, #4338ca, #7c3aed); color: white; border-radius: 1.4rem; padding: clamp(2rem, 5vw, 4rem); margin-bottom: 1.5rem; }
 .hero h1, .page-heading h1 { font-size: clamp(2rem, 5vw, 3.7rem); max-width: 760px; margin: .25rem 0; }
 .eyebrow { color: #0f766e; font-size: .78rem; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
 .hero .eyebrow { color: #5eead4; }
