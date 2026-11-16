@@ -10,6 +10,9 @@ import assistantRouter from './routes/assistant.js';
 export function createApp() {
   const app = express();
   app.disable('x-powered-by');
+  // Behind a hosting proxy, set TRUST_PROXY to the number of proxies (usually 1) so rate limits see real client IPs.
+  const proxyHops = Number(process.env.TRUST_PROXY);
+  if (Number.isInteger(proxyHops) && proxyHops > 0) app.set('trust proxy', proxyHops);
   app.use(helmet());
   app.use(cors({ origin: process.env.FRONTEND_URL || 'http://localhost:5173' }));
   app.use(express.json({ limit: '100kb' }));

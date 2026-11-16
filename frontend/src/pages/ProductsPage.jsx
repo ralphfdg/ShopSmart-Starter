@@ -83,7 +83,7 @@ export default function ProductsPage() {
 
       <StatusMessage>{cartMessage}</StatusMessage>
       {loading && <StatusMessage>Loading products…</StatusMessage>}
-      {error && <StatusMessage type="error">{error} Make sure the backend is running.</StatusMessage>}
+      {error && <StatusMessage type="error">{error}</StatusMessage>}
       {!loading && !error && visibleProducts.length === 0 && <StatusMessage>No products match your filters.</StatusMessage>}
 
       <div className="product-grid">
