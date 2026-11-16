@@ -10,6 +10,7 @@
     "check": "npm run lint --workspace frontend && npm run lint --workspace backend && npm run test && npm run build",
     "db:generate": "npm run db:generate --workspace backend",
     "db:migrate": "npm run db:migrate --workspace backend",
+    "db:deploy": "npm run db:deploy --workspace backend",
     "db:seed": "npm run db:seed --workspace backend",
     "db:studio": "npm run db:studio --workspace backend"
   },

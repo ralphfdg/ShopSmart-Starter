@@ -10,6 +10,7 @@
     "test": "node --test",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev --name initial_schema",
+    "db:deploy": "prisma migrate deploy",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio"
   },
