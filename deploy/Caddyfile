@@ -1,0 +1,20 @@
+# ShopSmart on a single EC2 host. Caddy gets and renews the HTTPS certificate automatically.
+# Replace shop.example.com with the demo hostname: a domain you control, or <elastic-ip>.sslip.io
+# if your instructor approves it. Ports 80 and 443 must be open in the security group.
+
+shop.example.com {
+	encode gzip
+
+	# API: only Caddy talks to Express, which listens on 127.0.0.1:3000 (HOST=127.0.0.1).
+	handle /api/* {
+		reverse_proxy 127.0.0.1:3000
+	}
+
+	# Frontend: built files from `npm run build`. Unknown paths such as /orders/12 get index.html,
+	# so a refresh on a React route still shows the app.
+	handle {
+		root * /opt/shopsmart/frontend/dist
+		try_files {path} /index.html
+		file_server
+	}
+}

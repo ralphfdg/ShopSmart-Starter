@@ -37,6 +37,9 @@ export default function AssistantPage() {
         {loading && <StatusMessage>Checking the catalog and preparing your answer…</StatusMessage>}
         {!result && !error && !loading && <p>Your answer will appear here.</p>}
         {result && <>
+          <p className="source-label">
+            Answer source: {result.provider === 'gemini' ? 'Live AI (Google Gemini), checked against the catalog' : 'Catalog search (no AI used)'}
+          </p>
           <p>{result.answer}</p>
           {usedFallback && <p className="assistant-note">Our AI helper is unavailable right now, so this answer comes directly from the catalog.</p>}
           <div className="recommendations">

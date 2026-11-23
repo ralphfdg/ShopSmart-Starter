@@ -75,7 +75,9 @@ function toResponse(answer, chosen, aiGenerated) {
     answer,
     recommendedProducts: chosen.map(({ id, name, price, category, stock }) => ({ id, name, price: Number(price), category, stock })),
     sources: chosen.map(({ id, name }) => ({ type: 'product', id, name })),
-    aiGenerated
+    aiGenerated,
+    // Shown in the interface so a live AI answer can be told apart from a catalog-only answer.
+    provider: aiGenerated ? 'gemini' : 'catalog'
   };
 }
 
