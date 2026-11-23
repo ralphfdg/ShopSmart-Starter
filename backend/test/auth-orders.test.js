@@ -161,6 +161,17 @@ test('the readiness check reports when the database is unreachable', async () =>
   }
 });
 
+test('private account and order responses are never cached', async () => {
+  await withServer(fakeDb(), async (api) => {
+    for (const [path, options] of [['/orders', asCustomer('token-one')], ['/orders/10', asCustomer('token-one')], ['/orders', {}], ['/auth/me', asCustomer('token-one')]]) {
+      const response = await fetch(`${api}${path}`, options);
+      assert.equal(response.headers.get('cache-control'), 'no-store', path);
+    }
+    // Public responses are not affected.
+    assert.notEqual((await fetch(`${api}/health`)).headers.get('cache-control'), 'no-store');
+  });
+});
+
 test('CORS lets the shop send its sign-in cookie', async () => {
   await withServer(fakeDb(), async (api) => {
     const shop = process.env.FRONTEND_URL || 'http://localhost:5173';
