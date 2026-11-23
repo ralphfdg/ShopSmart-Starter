@@ -9,6 +9,22 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
+describe('signed-in requests', () => {
+  it('sends the sign-in cookie with every request', async () => {
+    mockFetch(() => Promise.resolve(new Response(JSON.stringify({ user: null }), { status: 200 })));
+
+    await api.getSession();
+
+    expect(fetch).toHaveBeenCalledWith(expect.stringMatching(/\/auth\/me$/), expect.objectContaining({ credentials: 'include' }));
+  });
+
+  it('accepts an empty sign-out response', async () => {
+    mockFetch(() => Promise.resolve(new Response(null, { status: 204 })));
+
+    await expect(api.signOut()).resolves.toBeNull();
+  });
+});
+
 describe('api request errors', () => {
   it('turns a network failure into a clear message instead of "Failed to fetch"', async () => {
     mockFetch(() => Promise.reject(new TypeError('Failed to fetch')));

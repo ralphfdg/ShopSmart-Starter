@@ -45,6 +45,12 @@ Run every command from the project root folder.
    npm run db:seed
    ```
 
+   Then create the two fictional test customers. First set `TEST_CUSTOMER_ONE_PASSWORD` and `TEST_CUSTOMER_TWO_PASSWORD` in `backend/.env` (at least 12 characters each). This command never deletes anything.
+
+   ```bash
+   npm run db:seed:customers
+   ```
+
 6. Start the frontend and the API together:
 
    ```bash
@@ -54,6 +60,9 @@ Run every command from the project root folder.
 7. Open these two addresses:
    - Shop: http://localhost:5173
    - API health check: http://localhost:3000/api/health (should show `{"status":"ok"}`)
+   - Database check: http://localhost:3000/api/health/ready (should show `{"status":"ok","database":"ok"}`)
+
+Sign in as `test.customer.one@example.com` or `test.customer.two@example.com` to check out and see **My orders**. Each customer can only see their own orders.
 
 On later runs, only step 6 is needed.
 
@@ -68,7 +77,8 @@ If the shop opens on port 5174 instead of 5173, the API will block it, because C
 | `npm test` | Frontend and backend tests only |
 | `npm run db:migrate` | Local development only: applies and creates migrations (`prisma migrate dev`) |
 | `npm run db:deploy` | Staging or production: applies committed migrations only, never resets data (`prisma migrate deploy`) |
-| `npm run db:seed` | Deletes **all** orders and products, then adds the 6 sample products |
+| `npm run db:seed` | Deletes **all** orders and products, then adds the 6 sample products. Refuses to run when `NODE_ENV=production` |
+| `npm run db:seed:customers` | Creates or updates the two fictional test customers. Never deletes anything |
 | `npm run db:studio` | Opens Prisma Studio to view the data |
 
 ## Settings
@@ -80,6 +90,25 @@ If the shop opens on port 5174 instead of 5173, the API will block it, because C
 | `backend/.env` | `GEMINI_API_KEY` | **Secret** |
 | `backend/.env` | `FRONTEND_URL`: the only website allowed by CORS | Public |
 | `backend/.env` | `TRUST_PROXY`: set to `1` only when the API is hosted behind a proxy | Public |
+| `backend/.env` | `NODE_ENV`: `production` when hosted. Makes the sign-in cookie HTTPS-only and blocks `db:seed` | Public |
+| `backend/.env` | `HOST`: set to `127.0.0.1` when hosted, so only the web server can reach the API | Public |
+| `backend/.env` | `TEST_CUSTOMER_ONE_PASSWORD`, `TEST_CUSTOMER_TWO_PASSWORD`: fictional test accounts | **Secret** |
+
+If `VITE_API_URL` is empty, a production build calls `/api` on the shop's own address.
+
+## API routes
+
+| Route | Who can use it |
+|---|---|
+| `GET /api/health`, `GET /api/health/ready` | Anyone |
+| `GET /api/products`, `GET /api/products/:id`, `POST /api/assistant/questions` | Anyone |
+| `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me` | Anyone |
+| `POST /api/orders` | Signed-in customers. The order is saved under their account |
+| `GET /api/orders`, `GET /api/orders/:id` | Signed-in customers, **own orders only**. Guests get 401, and another customer's order gets 404 |
+
+## Hosting
+
+See [deploy/README.md](deploy/README.md) for the single EC2 setup: Caddy (HTTPS and static files), a systemd service for the API, and PostgreSQL.
 
 ## Release documents
 

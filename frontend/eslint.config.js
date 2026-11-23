@@ -21,7 +21,7 @@ export default [
     }
   },
   {
-    files: ['src/context/CartContext.jsx'],
+    files: ['src/context/*.jsx'],
     rules: { 'react-refresh/only-export-components': 'off' }
   }
 ];

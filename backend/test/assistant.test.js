@@ -39,6 +39,7 @@ async function ask(question, draftResult) {
 
 function assertUsesFallback(response) {
   assert.equal(response.aiGenerated, false);
+  assert.equal(response.provider, 'catalog');
   assert.match(response.answer, /Compact Mechanical Keyboard \(₱1,850\)/);
   assert.deepEqual(response.recommendedProducts.map((product) => product.id), [14]);
   assert.deepEqual(response.sources.map((source) => source.id), [14]);
@@ -82,6 +83,7 @@ test('a verified draft is used and its links come from the catalog', async () =>
   const { response } = await ask(KEYBOARD_QUESTION, goodDraft);
   assert.equal(response.answer, goodDraft.answer);
   assert.equal(response.aiGenerated, true);
+  assert.equal(response.provider, 'gemini');
   assert.deepEqual(response.recommendedProducts, [{ id: 14, name: 'Compact Mechanical Keyboard', price: 1850, category: 'Accessories', stock: 8 }]);
   assert.deepEqual(response.sources, [{ type: 'product', id: 14, name: 'Compact Mechanical Keyboard' }]);
 });

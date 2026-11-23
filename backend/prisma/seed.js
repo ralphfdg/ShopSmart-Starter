@@ -1,5 +1,13 @@
 import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
+
+// This script deletes every order. On a hosted database it only runs when explicitly allowed (first setup only).
+if (process.env.NODE_ENV === 'production' && process.env.ALLOW_DESTRUCTIVE_SEED !== 'yes') {
+  console.error('Refusing to run db:seed: NODE_ENV is production and this script deletes all orders and products.');
+  console.error('Only on a new, empty database: set ALLOW_DESTRUCTIVE_SEED=yes for that one command.');
+  process.exit(1);
+}
+
 const prisma = new PrismaClient();
 
 const products = [

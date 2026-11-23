@@ -1,4 +1,5 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+// Hosted builds default to /api on the same address as the shop, never to localhost.
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:3000/api' : '/api');
 
 const FIELD_LABELS = {
   customerName: 'Full name',
@@ -19,6 +20,8 @@ async function request(path, options = {}) {
   try {
     response = await fetch(`${API_URL}${path}`, {
       ...options,
+      // Sends the sign-in cookie. The server only accepts it from the shop's own address (CORS).
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json', ...options.headers }
     });
   } catch {
@@ -43,6 +46,11 @@ export const api = {
   getProducts: (query = '') => request(`/products${query ? `?search=${encodeURIComponent(query)}` : ''}`),
   getProduct: (id) => request(`/products/${id}`),
   createOrder: (order) => request('/orders', { method: 'POST', body: JSON.stringify(order) }),
+  getOrders: () => request('/orders'),
+  getOrder: (id) => request(`/orders/${encodeURIComponent(id)}`),
+  getSession: () => request('/auth/me'),
+  signIn: (email, password) => request('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) }),
+  signOut: () => request('/auth/logout', { method: 'POST' }),
   askAssistant: (question) => request('/assistant/questions', {
     method: 'POST', body: JSON.stringify({ question })
   })
