@@ -4,9 +4,9 @@
 |---|---|
 | Release | Hosted demo on AWS. Fictional data and simulated checkout only |
 | Site URL | https://shopsmartbyralph.52-63-34-10.sslip.io |
-| Code version | Branch `deployment` (from `main` after PR #5) |
+| Code version | Git tag `v1.1.0` on branch `deployment` (from `main` after PR #5) |
 | AWS account | Member account "ShopSmart-Demo" (ID ending 8097) in the team's AWS Organization |
-| AWS plan | Paid plan (pay as you go). Usage is covered by shared organization credits: US$96.20 left of US$120 on 24 Nov 2026, expiring 5 Nov 2027 |
+| AWS plan | Paid plan (pay as you go). Usage is covered by shared organization credits: US$96.20 left of US$120 on 24 Nov 2026, expiring 5 Nov 2027. Evidence: H-00 (account and credit IDs redacted) |
 | Region | ap-southeast-2 (Sydney). The organization's region policy allows workloads only here |
 | Owner | Ralph De Guzman |
 | Demo window | From 24 Nov 2026. Remove everything after grading (see "Removal plan") |
@@ -103,7 +103,7 @@ Each expected result was written before the check ran. Evidence is in `release/e
 | Assistant | Catalog-only answer is labelled. Product and price match the catalog. No match is honest | "Answer source: Catalog search (no AI used)". Compact Mechanical Keyboard ₱1,850, source #2. "Do you sell camping tents?" → honest no-match | Pass | H-14, H-15 |
 | Restart and logs | After `systemctl reboot` the API returns without help. Data kept. Logs show no secrets | Back about 30 s later (boot 00:36:24 UTC). All three services active. 6 products, order #1 and both customers kept. Journal shows request lines only | Pass | H-16 |
 | Secrets | No secret in the repository, built frontend or screenshots | Built `dist` has no secret strings. `git grep` finds only the `${db_password}` template variable. Screenshots show no passwords | Pass | H-16 |
-| Credits | Usage stays within credits | US$96.20 of credits left before launch. Estimated US$0.50/day | Pass (check again before grading) | Billing console |
+| Credits | Usage stays within credits | US$96.20 of credits left before launch. Estimated US$0.50/day | Pass (check again before grading) | H-00 |
 
 ## Release note (v1.1, hosted)
 
