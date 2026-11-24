@@ -36,8 +36,10 @@ export function createApp({ db = prisma } = {}) {
     }
   });
   app.use('/api/products', productsRouter);
-  app.use('/api/auth', createAuthRouter(db));
-  app.use('/api/orders', createOrdersRouter(db));
+  // Private, per-customer responses: browsers, proxies and CDNs must never store them.
+  const noStore = (_request, response, next) => { response.set('Cache-Control', 'no-store'); next(); };
+  app.use('/api/auth', noStore, createAuthRouter(db));
+  app.use('/api/orders', noStore, createOrdersRouter(db));
   app.use('/api/assistant', assistantRouter);
   app.use((_request, response) => response.status(404).json({ error: { code: 'ROUTE_NOT_FOUND', message: 'API route could not be found.' } }));
   app.use((error, request, response, _next) => {
