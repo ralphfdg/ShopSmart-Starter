@@ -1,0 +1,31 @@
+{
+  "checkedAt": "2026-11-24T00:35:20.486Z",
+  "confirmationPage": "ORDER RECEIVED\n\nThank you, Test Customer One!\n\nYour simulated order number is #1.\n\nTotal: ₱2,750.00\n\nView order Continue shopping",
+  "excessQuantity": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "INSUFFICIENT_STOCK",
+        "message": "Only 6 unit(s) of 1080p Webcam are available."
+      }
+    }
+  },
+  "invalidEmail": {
+    "status": 422,
+    "code": "INVALID_ORDER",
+    "fields": [
+      "email"
+    ]
+  },
+  "zeroQuantity": {
+    "status": 422,
+    "code": "INVALID_ORDER"
+  },
+  "myOrderIds": [
+    1
+  ],
+  "stockAfter": [
+    "Compact Mechanical Keyboard: 7",
+    "USB-C Study Lamp: 9"
+  ]
+}
