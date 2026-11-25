@@ -24,7 +24,20 @@ Use fictional data only. Checkout is simulated.
 | 22 | Your IP only, or closed if you use Session Manager | Administration |
 | 3000, 5432 | **Never open** | Internal only |
 
-## Server setup (once)
+## Automatic setup (recommended)
+
+`deploy/ec2-setup.sh` does every step below on first boot. Paste this as the instance's **User data** when launching, with the Elastic IP written using dashes:
+
+```bash
+#!/bin/bash
+dnf install -y git
+git clone --branch deployment https://github.com/ralphfdg/ShopSmart-Starter.git /opt/shopsmart
+SHOP_HOST=shopsmartbyralph.<ip-with-dashes>.sslip.io bash /opt/shopsmart/deploy/ec2-setup.sh >> /var/log/shopsmart-setup.log 2>&1
+```
+
+Follow progress in Session Manager with `sudo tail -f /var/log/shopsmart-setup.log`. The generated test-customer passwords are in `/etc/shopsmart/api.env` (root only).
+
+## Server setup by hand (once)
 
 1. Launch an Amazon Linux 2023 instance with an Elastic IP. Point the hostname at the Elastic IP.
 2. Install Node.js 22, PostgreSQL and Caddy. Use each project's official instructions for Amazon Linux 2023.

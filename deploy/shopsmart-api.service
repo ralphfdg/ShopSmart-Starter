@@ -14,7 +14,7 @@ User=shopsmart
 WorkingDirectory=/opt/shopsmart/backend
 # Server-only settings (DATABASE_URL, GEMINI_API_KEY). Owned by root, mode 600. Never committed.
 EnvironmentFile=/etc/shopsmart/api.env
-ExecStart=/usr/bin/node src/server.js
+ExecStart=/usr/local/bin/node src/server.js
 Restart=on-failure
 RestartSec=5
 NoNewPrivileges=true
